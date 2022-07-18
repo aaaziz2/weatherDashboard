@@ -18,26 +18,33 @@ var curLon
 var lastCity = "{city name}"
 var lastLat = "{lat}"
 var lastLon = "{lon}"
-
+var pastSearch = 0
 
 // Generate Weather Info
 function dashGenerate(event){
     // Stop page from refreshing
-    event.preventDefault()  
+    if (pastSearch == 0){
+      event.preventDefault()  
+    }
+    else{
+      pastSearch--
+    }
     // stop if no city is entered
     if(city.value == ''){
       console.log('ruh roh')
       return
     }
-    // https://www.javascripttutorial.net/web-apis/javascript-localstorage/
-    // get list of names from localStorage
+    // Remove old list of cities
     while(pastCities.hasChildNodes()){
       pastCities.removeChild(pastCities.firstChild)
     }
+    // https://www.javascripttutorial.net/web-apis/javascript-localstorage/
+    // get list of names from localStorage
     let keys = Object.keys(localStorage)
+    // add list of past cities
     for(i = 0; i< keys.length; i++){
       var cities = document.createElement('button')
-      cities.classList.add("btn")
+      cities.classList.add("btn","btn-primary")
       cities.textContent = keys[i]
       pastCities.appendChild(cities)
     }
@@ -80,6 +87,16 @@ function dashGenerate(event){
                 today.children[3].textContent = `Humidity ${data.current.humidity} %`
                 // need to figure out formatting for UV Index
                 today.children[4].textContent = `UV Index ${data.current.uvi}`
+                if(data.current.uvi >= 6){
+                  today.children[4].style = "background:red; color:white; display:inline" 
+                }
+                else if(data.current.uvi >= 3){
+                  today.children[4].style = "background:yellow; color:black; display:inline"
+                }
+                else if(data.current.uvi >= 0){
+                  today.children[4].style = "background:green; color:white; display:inline"
+                }
+                
                 // Reset the search bar
                 city.value = ""
                 // Add Title for Forecast
@@ -123,6 +140,7 @@ function pastCitiesSearch(event){
   if(event.target.classList.contains("btn")){
     var past = event.target.textContent
     city.value = past
+    pastSearch++
     dashGenerate()
   }
 }
