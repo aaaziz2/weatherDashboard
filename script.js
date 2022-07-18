@@ -44,7 +44,7 @@ function dashGenerate(event){
     // add list of past cities
     for(i = 0; i< keys.length; i++){
       var cities = document.createElement('button')
-      cities.classList.add("btn","btn-primary")
+      cities.classList.add("btn","btn-outline-primary")
       cities.textContent = keys[i]
       pastCities.appendChild(cities)
     }
@@ -82,10 +82,10 @@ function dashGenerate(event){
                 console.log(data)
                 // Set Weather Info based on info pulled from One Call 1.0 API
                 today.children[0].textContent = `${city.value} (${todayDate.format('MM/DD/YYYY')})`
-                today.children[1].textContent = `Temp: ${data.current.temp} F`
+                today.children[1].textContent = `Temp: ${data.current.temp} \xB0F`
                 today.children[2].textContent = `Wind: ${data.current.wind_speed} MPH`
                 today.children[3].textContent = `Humidity ${data.current.humidity} %`
-                // need to figure out formatting for UV Index
+                // set UV Index and format accordingly
                 today.children[4].textContent = `UV Index ${data.current.uvi}`
                 if(data.current.uvi >= 6){
                   today.children[4].style = "background:red; color:white; display:inline" 
@@ -119,7 +119,7 @@ function dashGenerate(event){
                   // set icon
                   icon.src = iconURL.replace("{icon}",data.daily[i].weather[0].icon)    
                   // set temp
-                  forecastTemp.textContent = `Temp: ${data.daily[i].temp.day} F`
+                  forecastTemp.textContent = `Temp: ${data.daily[i].temp.day} \xB0F`
                   forecastTemp.classList.add("card-text")
                   // set wind speed
                   forecastWind.textContent = `Wind: ${data.daily[i].wind_speed} MPH`
