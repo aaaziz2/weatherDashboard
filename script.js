@@ -4,6 +4,7 @@ var weatherSearch = document.querySelector("#weatherSearch")
 var today = document.querySelector("#today")
 var forecast = document.querySelector("#forecast")
 var forecastTitle = document.querySelector("#forecastTitle")
+var pastCities = document.querySelector("#pastCities")
 // Today's Date with Moment
 var todayDate = moment()
 // APIs for One Call 1.0, the Geocoding API, and their weather icon database
@@ -17,17 +18,29 @@ var curLon
 var lastCity = "{city name}"
 var lastLat = "{lat}"
 var lastLon = "{lon}"
+
+
 // Generate Weather Info
 function dashGenerate(event){
-    // https://www.javascripttutorial.net/web-apis/javascript-localstorage/
-    // get list of names from localStorage
-    let keys = Object.keys(localStorage)
+    // Stop page from refreshing
+    event.preventDefault()  
     // stop if no city is entered
     if(city.value == ''){
+      console.log('ruh roh')
       return
     }
-    // Stop page from refreshing
-    event.preventDefault()
+    // https://www.javascripttutorial.net/web-apis/javascript-localstorage/
+    // get list of names from localStorage
+    while(pastCities.hasChildNodes()){
+      pastCities.removeChild(pastCities.firstChild)
+    }
+    let keys = Object.keys(localStorage)
+    for(i = 0; i< keys.length; i++){
+      var cities = document.createElement('button')
+      cities.classList.add("btn")
+      cities.textContent = keys[i]
+      pastCities.appendChild(cities)
+    }
     // add City to localStorage
     localStorage.setItem(city.value, city.value)
     // Search for current city, replace text with default or the last city entered
@@ -102,5 +115,16 @@ function dashGenerate(event){
     })
     
 }
+
 // if City name is submitted generate dashboard
 weatherSearch.addEventListener('submit', dashGenerate)
+
+function pastCitiesSearch(event){
+  if(event.target.classList.contains("btn")){
+    var past = event.target.textContent
+    city.value = past
+    dashGenerate()
+  }
+}
+
+pastCities.addEventListener('click', pastCitiesSearch)
