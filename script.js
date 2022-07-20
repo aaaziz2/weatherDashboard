@@ -81,10 +81,13 @@ function dashGenerate(event){
             .then(function (data) {
                 console.log(data)
                 // Set Weather Info based on info pulled from One Call 1.0 API
+                
+                
                 today.children[0].textContent = `${city.value} (${todayDate.format('MM/DD/YYYY')})`
-                today.children[1].textContent = `Temp: ${data.current.temp} \xB0F`
-                today.children[2].textContent = `Wind: ${data.current.wind_speed} MPH`
-                today.children[3].textContent = `Humidity ${data.current.humidity} %`
+                today.children[1].src = iconURL.replace('{icon}', data.current.weather[0].icon)
+                today.children[2].textContent = `Temp: ${data.current.temp} \xB0F`
+                today.children[3].textContent = `Wind: ${data.current.wind_speed} MPH`
+                today.children[4].textContent = `Humidity ${data.current.humidity} %`
                 // set UV Index and format accordingly
                 today.children[4].textContent = `UV Index ${data.current.uvi}`
                 if(data.current.uvi >= 6){
