@@ -1,5 +1,8 @@
 # weatherDashboard
 
+## Your Task
+
+Create a weather dashboard using the OpenWeather API to retrieve weather data for cities.
 
 ## Acceptance Criteria
 
@@ -16,3 +19,17 @@ THEN I am presented with a 5-day forecast that displays the date, an icon repres
 WHEN I click on a city in the search history
 THEN I am again presented with current and future conditions for that city
 ```
+
+## Screenshots
+
+![Start Page](./images/start.png)
+
+![1st City Example](./images/ex1.png)
+
+![2nd City Example](./images/ex2.png)
+
+## Links
+
+Github: https://github.com/aaaziz2/weatherDashboard
+
+Direct Link: https://aaaziz2.github.io/weatherDashboard/
