@@ -23,6 +23,8 @@ var pastSearch = 0
 // Generate Weather Info
 function dashGenerate(event){
     // Stop page from refreshing
+    // the if statement is to make the weather populate if called from pastCitiesSearch
+    // something to do with the event.preventDefault
     if (pastSearch == 0){
       event.preventDefault()  
     }
@@ -31,7 +33,7 @@ function dashGenerate(event){
     }
     // stop if no city is entered
     if(city.value == ''){
-      console.log('ruh roh')
+      // console.log('ruh roh')
       return
     }
     // Remove old list of cities
@@ -54,7 +56,9 @@ function dashGenerate(event){
     latLonGetter = latLonGetter.replace(lastCity, city.value)
     // set current city as the past city
     lastCity = city.value
-    console.log(latLonGetter)
+    
+    // console.log(latLonGetter)
+    
     // run geocoding API to get lat/lon
     fetch(latLonGetter)
       .then(function (response) {
@@ -62,27 +66,28 @@ function dashGenerate(event){
       })
       .then(function (data) {
         // console.log(data)
+
         // set current lat & lon
         curLat = data[0].lat
         curLon = data[0].lon
-        // console.log(curLat + ' ' + curLon)
         // replace last lat/long or default with current one pulled from API
         url = url.replace(lastLat, curLat)
         url = url.replace(lastLon, curLon)
         // set current lat/lon as the the past lat/lon
         lastLat = curLat
         lastLon = curLon
-        console.log(url)
+        
+        // console.log(url)
+        
         // get weather data based on lat/lon
         fetch(url)
             .then(function (response) {
                 return response.json()
             })
             .then(function (data) {
-                console.log(data)
+                // console.log(data)
+                
                 // Set Weather Info based on info pulled from One Call 1.0 API
-                
-                
                 today.children[0].textContent = `${city.value} (${todayDate.format('MM/DD/YYYY')})`
                 today.children[1].src = iconURL.replace('{icon}', data.current.weather[0].icon)
                 today.children[2].textContent = `Temp: ${data.current.temp} \xB0F`
@@ -139,6 +144,7 @@ function dashGenerate(event){
 // if City name is submitted generate dashboard
 weatherSearch.addEventListener('submit', dashGenerate)
 
+// generate weather from past searched cities
 function pastCitiesSearch(event){
   if(event.target.classList.contains("btn")){
     var past = event.target.textContent
@@ -147,5 +153,5 @@ function pastCitiesSearch(event){
     dashGenerate()
   }
 }
-
+// event listener for list of past cities
 pastCities.addEventListener('click', pastCitiesSearch)
